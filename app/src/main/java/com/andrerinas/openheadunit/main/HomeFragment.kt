@@ -724,6 +724,10 @@ class HomeFragment : Fragment() {
         hasCheckedNativeDriverSelection = true
         val appSettings = App.provide(requireContext()).settings
         if (appSettings.nativeDriverSelectionMode == NativeDriverSelectionPolicy.Mode.DISABLED) return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
         val adapter = BluetoothHelper.getBluetoothAdapter(requireContext())
         if (adapter == null || !adapter.isEnabled) return
 
